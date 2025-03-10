@@ -33,9 +33,7 @@
           <button type="submit" class="btn btn-primary w-100">Fazer Login</button>
         </form>
   
-        <div class="text-center mt-3">
-          <p>Não tem uma conta? <router-link to="/register">Registre-se</router-link></p>
-        </div>
+
       </div>
     </section>
   </template>
@@ -53,20 +51,25 @@ export default {
       },
     };
   },
-  methods: {
-    handleSubmit() {
-      Api.post("/login", {
-        email: this.form.email,
-        password: this.form.password,
-      })
-      .then((response) => {
-        console.log(response.data); 
-        localStorage.setItem("token", response.data.token)
-      })
-      .catch((error) => {
-        console.error("Erro de login:", error); 
-      });
+methods: {
+    async handleSubmit() {
+      try {
+        const response = await Api.post("/login", {
+          email: this.form.email,
+          password: this.form.password,
+        });
+        
+        console.log(response.data);
+        localStorage.setItem("token", response.data.data.token);
+        window.alert("Usuário logado com sucesso")
+        this.$router.push("/dashboard"); 
+        
+      } catch (error) {
+        console.error("Erro de login:", error.response?.data || error.message);
+      }
     },
   },
+
+
 };
 </script>

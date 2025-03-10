@@ -7,5 +7,6 @@ import router from "./router/router.tsx";
 
 const app = createApp(App)
 
-app.use(router)  // Usando o Vue Router
+app.use(router)  
+
 app.mount('#app')

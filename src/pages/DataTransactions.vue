@@ -52,13 +52,13 @@ onMounted(fetchData)
                 <td>{{ transaction.value }}</td>
                 <td>{{ transaction.descricao }}</td>
                 <td>{{ transaction.categoria }}</td>
-                <button>
+                <router-link :to="`/transaction/${transaction.id}`">
                     <i class="fas fa-edit"></i> Editar
-                  </button>
+                </router-link>
                   
-                  <button>
+                  <router-link :to="`/transaction/${transaction.id}`">
                     <i class="fas fa-trash"></i> Excluir
-                  </button>
+                  </router-link>
             </tr>
         
         </tbody>
