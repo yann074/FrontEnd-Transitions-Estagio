@@ -1,3 +1,28 @@
+<script setup>
+import Api from "../service/Api";
+import { ref, onMounted } from "vue";
+import { format } from 'date-fns'
+
+const transactions = ref([]);
+
+const fetchData = async () => {
+  try {
+    const response = await Api.get("/all"); 
+    console.log(response.data.data); 
+    transactions.value = response.data.data.map(transaction => {
+      return {
+        ...transaction,
+        date_criated: format(new Date(transaction.date_criated), "hh:mm - dd/MM/yyyy ")
+      }
+    }); 
+  } catch (error) {
+    console.error("Erro ao buscar os dados:", error);
+  }
+};
+
+onMounted(fetchData)
+</script>
+
 <template>
     <div id="app" class="container mt-5">
       <h1 class="mb-4">Lista de Itens</h1>
@@ -11,16 +36,29 @@
             <th>Valor</th>
             <th>Descrição</th>
             <th>Categoria</th>
+            <th>    
+              <button class="btn btn-primary">
+                <i class="bi bi-plus"></i> Adicionar
+              </button>
+
+              </th>
           </tr>
         </thead>
         <tbody>
             
-            <tr v-if="datas.length" v-for="datas in datas" :key="datas.id">
-                <td>{{ datas.dataCriacao }}</td>
-                <td>{{ datas.tipo }}</td>
-                <td>{{ datas.valor }}</td>
-                <td>{{ datas.descricao }}</td>
-                <td>{{ datas.categoria }}</td>
+            <tr  v-for="(transaction, index) in transactions" :key="index">
+                <td>{{ transaction.date_criated  }}</td>
+                <td>{{ transaction.tipe  ? "Entrada" : "Saida"}}</td>
+                <td>{{ transaction.value }}</td>
+                <td>{{ transaction.descricao }}</td>
+                <td>{{ transaction.categoria }}</td>
+                <button>
+                    <i class="fas fa-edit"></i> Editar
+                  </button>
+                  
+                  <button>
+                    <i class="fas fa-trash"></i> Excluir
+                  </button>
             </tr>
         
         </tbody>
@@ -28,30 +66,3 @@
     </div>
   </template>
 
-  <script>
-  import Api from "../service/Api";
-  
-  export default {
-        data(){
-          return{
-              dates: ""
-          }
-        },
-
-        mounted(){
-            this.fetchData();
-        },
-        methods: {
-            async fetchData(){
-                try{
-                const response = await Api.get("/all");
-                this.dates = response
-                }
-                catch(error){
-                    console.log(error)
-                }
-            }
-        }
-      
-}
-</script>
