@@ -29,6 +29,7 @@
   
           console.log(response.data);
           window.alert("Categoria adicionada com sucesso");
+          window.location.reload();
           name.value = ""; 
         } catch (error) {
           console.error("Erro ao adicionar categoria:", error.response?.data || error.message);

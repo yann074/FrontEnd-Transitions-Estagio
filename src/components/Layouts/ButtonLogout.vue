@@ -1,5 +1,5 @@
 <script setup>
-import { useAuth } from "../store/auth.tsx";
+import { useAuth } from "../../store/auth.tsx";
 const auth = useAuth();  
 
 const logout = () => {

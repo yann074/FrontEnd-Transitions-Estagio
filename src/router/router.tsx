@@ -4,15 +4,12 @@ import App from '../App.vue';
 import DataTransations from '../pages/DataTransactions.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import {useAuth} from "../store/auth"
-import HelloWorld from '../components/HelloWorld.vue';
 import FormRegister from '../pages/FormRegister.vue';
 import AllCategory from '../components/Layouts/category/AllCategory.vue';
+import EditTransactions from '../pages/EditTransactions.vue';
 
 
 const routes = [
-  { 
-    path: "/", 
-    component: HelloWorld },
   { 
     path: "/login", 
     component: Login 
@@ -23,13 +20,19 @@ const routes = [
     meta: { requiresAuth: true } 
   },
   {
-    path: "/formregister",
+    path: "/register",
     component: FormRegister,
     meta: { requiresAuth: true } 
   },
   {
     path:"/category",
-    component: AllCategory
+    component: AllCategory,
+    meta: { requiresAuth: true } 
+  },
+  {
+    path: `/edit/:id`,
+    component: EditTransactions,
+    meta: { requiresAuth: true } 
   }
 ];
 

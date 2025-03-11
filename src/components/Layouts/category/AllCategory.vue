@@ -1,27 +1,44 @@
-<script setup>
-import Api from "../../../service/Api"
-import { ref, onMounted } from "vue";
-import { format } from 'date-fns'
+<template>
+  <select v-model="selectedCategory" @change="updateCategory" class="form-select">
+    <option value="">Escolha uma categoria</option>
+    <option v-for="(category, index) in categories" :key="index" :value="category.id">
+      {{ category.name }}
+    </option>
+  </select>
+</template>
 
-const category = ref([]);
+<script setup>
+import { ref, onMounted, watch } from "vue";
+import Api from "../../../service/Api";
+
+const props = defineProps({
+  modelValue: {
+    type: [String, Number],
+    default: "",
+  },
+});
+const emit = defineEmits(["update:modelValue"]);
+
+// Estado
+const categories = ref([]);
+const selectedCategory = ref(props.modelValue); 
+
+const updateCategory = () => {
+  emit("update:modelValue", selectedCategory.value);
+};
+
+watch(() => props.modelValue, (newValue) => {
+  selectedCategory.value = newValue;
+});
 
 const fetchData = async () => {
   try {
-    const response = await Api.get("/category"); 
-    console.log(response.data.data); 
-    category.value = response.data.data; 
+    const response = await Api.get("/category");
+    categories.value = response.data.data;
   } catch (error) {
     console.error("Erro ao buscar os dados:", error);
   }
 };
 
-onMounted(fetchData)
+onMounted(fetchData);
 </script>
-
-
-<template>
-    <select name="category"class="form-select">
-            <option value="">Escolha uma opção</option>
-            <option  v-for="(categories, index) in category"  :key="index" :value="categories.name">{{ categories.name }}</option>
-    </select>
-</template>

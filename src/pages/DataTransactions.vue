@@ -14,11 +14,21 @@ const fetchData = async () => {
     transactions.value = response.data.data.map(transaction => {
       return {
         ...transaction,
-        date_criated: format(new Date(transaction.date_criated), "hh:mm - dd/MM/yyyy ")
+        created_at: format(new Date(transaction.created_at), "hh:mm - dd/MM/yyyy ")
       }
     }); 
   } catch (error) {
     console.error("Erro ao buscar os dados:", error);
+  }
+};
+
+const deleteData = async (id) => {
+  try {
+    const response = await Api.delete(`/transactions/${id}`);
+    console.log(response.data);
+    transactions.value = transactions.value.filter(transaction => transaction.id !== id);
+  } catch (error) {
+    console.error("Erro ao deletar os dados:", error);
   }
 };
 
@@ -38,12 +48,6 @@ onMounted(fetchData)
             <th>Valor</th>
             <th>Descrição</th>
             <th>Categoria</th>
-            <th>    
-              <router-link :to="`/formregister`" class="btn btn-primary">
-                <i class="bi bi-plus"></i> Adicionar
-              </router-link>
-
-              </th>
               
               
             </tr>
@@ -51,17 +55,17 @@ onMounted(fetchData)
         <tbody>
             
             <tr  v-for="(transaction, index) in transactions" :key="index">
-                <td>{{ transaction.date_criated  }}</td>
+                <td>{{ transaction.created_at  }}</td>
                 <td>{{ transaction.tipe  ? "Entrada" : "Saida"}}</td>
                 <td>{{ transaction.value }}</td>
-                <td>{{ transaction.descricao }}</td>
-                <td>{{ transaction.categoria }}</td>
-                <router-link :to="`/transaction/${transaction.id}`">
-                    <i class="fas fa-edit"></i> Editar
-                </router-link>
+                <td>{{ transaction.description }}</td>
+                <td>{{ transaction.category_id }}</td>
+                <button @click="deleteData(transaction.id)" class="btn btn-danger">
+                  <i class="fas fa-trash"></i> Deletar
+                </button>
                   
-                  <router-link :to="`/transaction/${transaction.id}`">
-                    <i class="fas fa-trash"></i> Excluir
+                  <router-link :to="`/edit/${transaction.id}`">
+                    <i class="fas fa-trash"></i> Editar
                   </router-link>
                 </tr>
                 

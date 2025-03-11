@@ -24,10 +24,10 @@
         <input
           type="text"
           class="form-control"
-          id="desc"
-          name="desc"
+          id="description"
+          name="description"
           placeholder="Digite a descrição"
-          v-model="form.desc"
+          v-model="form.description"
         />
       </div>
   
@@ -42,7 +42,7 @@
   
       <div class="mb-3">
         <label for="categoria" class="form-label">Categoria:</label>
-        <AllCategory />
+        <AllCategory v-model="form.category_id" />
       </div>
   
       <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
@@ -58,34 +58,37 @@ import AllCategory from "../components/Layouts/category/AllCategory.vue";
 
 export default {
   components: {
-    AllCategory, // Certifique-se de que o componente está registrado aqui
+    AllCategory,
   },
   data() {
     return {
       form: {
         value: "",
-        desc: "",
+        description: "",
         type: "",
-        categoria: ""
+        category_id: ""
       },
     };
   },
   methods: {
+
     handleSubmit() {
-      Api.post("/new_transitions", {
-        value: this.form.value,
-        desc: this.form.desc,
-        type: this.form.type,
-        categoria: this.form.categoria,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro de login:", error);
-      });
-    },
-  },
-};
+  Api.post("/transactions", {
+    value: this.form.value,
+    description: this.form.description,
+    type: this.form.type,
+    category_id: this.form.category_id,
+  })
+  .then((response) => {
+    console.log("Resposta da API:", response.data);
+  })
+  .catch((error) => {
+    console.error("Erro:", error.response ? error.response.data : error);
+  });
+}
+
+  }
+}
+
   </script>
   
