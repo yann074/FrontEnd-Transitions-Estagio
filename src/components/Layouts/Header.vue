@@ -3,11 +3,14 @@ import { RouterLink } from 'vue-router';
 import logo from '../../assets/logo.png';
 import ButtonLogout from './ButtonLogout.vue';
 
+
 export default {
+  components: {
+    ButtonLogout
+  },
   data() {
     return {
       imagem: logo,
-      ButtonLogout: ButtonLogout
     };
   }
 };
@@ -37,7 +40,7 @@ export default {
               </router-link>
           </li>
           <li>
-            <ButtonLogout />
+            <ButtonLogout class="ms-3" />
           </li>
         </ul>
       </nav>

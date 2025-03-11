@@ -5,7 +5,6 @@
     </div>
 
     <form @submit.prevent="handleSubmit">
-  
       <div class="mb-3">
         <label for="valor" class="form-label">Valor:</label>
         <input
@@ -18,7 +17,7 @@
           v-model="form.value"
         />
       </div>
-  
+
       <div class="mb-3">
         <label for="descricao" class="form-label">Descrição:</label>
         <input
@@ -30,85 +29,69 @@
           v-model="form.description"
         />
       </div>
-  
+
       <div class="mb-3">
         <label for="tipo" class="form-label">Tipo:</label>
-        <select v-model="form.type" class="form-select" name="tipo" required>
+        <select v-model="form.type" class="form-select" name="type" required>
           <option value="">Escolha uma Opção</option>
           <option :value="true">Entrada</option>
           <option :value="false">Saída</option>
         </select>
       </div>
-  
+
       <div class="mb-3">
         <label for="categoria" class="form-label">Categoria:</label>
         <AllCategory v-model="form.category_id" />
       </div>
-  
-      <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+
+      <button type="submit" class="btn btn-primary w-100">Atualizar</button>
     </form>
   </section>
 </template>
-  
-  <script>
-import Api from "../service/Api";
-import { ref, onMounted } from "vue";
-import axios from "axios";
-import AllCategory from "../components/Layouts/category/AllCategory.vue";
 
+<script>
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router"; 
+import Api from "../service/Api";
+import AllCategory from "../components/Layouts/category/AllCategory.vue";
 
 export default {
   components: {
     AllCategory,
   },
-  data() {
-    return {
-      form: {
-        value: "",
-        description: "",
-        type: "",
-        category_id: ""
-      },
-    };
-  },
-  methods: {
+  setup() {
+    const route = useRoute(); 
+    const router = useRouter(); 
+    const form = ref({
+      value: "",
+      description: "",
+      type: "",
+      category_id: "",
+    });
 
-    handleSubmit() {
-  Api.post("/transactions", {
-    value: this.form.value,
-    description: this.form.description,
-    type: this.form.type,
-    category_id: this.form.category_id,
-  })
-  .then((response) => {
-    console.log("Resposta da API:", response.data);
-  })
-  .catch((error) => {
-    console.error("Erro:", error.response ? error.response.data : error);
-  });
-}
-
-  }
-}
-
-const transactions = ref([]);
-
-const fetchData = async () => {
-  try {
-    const response = await Api.get(`/transactions/${id}`); 
-    console.log(response.data.data); 
-    transactions.value = response.data.data.map(transaction => {
-      return {
-        ...transaction,
-        created_at: format(new Date(transaction.created_at), "hh:mm - dd/MM/yyyy ")
+    const fetchData = async () => {
+      try {
+        const response = await Api.get(`/transactions/${route.params.id}`);
+        form.value = response.data.data;
+        window.location("/dashboard");
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
       }
-    }); 
-  } catch (error) {
-    console.error("Erro ao buscar os dados:", error);
-  }
+    };
+
+    const handleSubmit = async () => {
+      try {
+        await Api.put(`/transactions/${route.params.id}`, form.value);
+        alert("Transação atualizada com sucesso!");
+        router.push("/dashboard"); 
+      } catch (error) {
+        console.error("Erro ao atualizar:", error.response ? error.response.data : error);
+      }
+    };
+
+    onMounted(fetchData);
+
+    return { form, handleSubmit };
+  },
 };
-
-
-onMounted(fetchData)
-  </script>
-  
+</script>

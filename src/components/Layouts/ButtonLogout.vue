@@ -3,6 +3,7 @@ import { useAuth } from "../../store/auth.tsx";
 const auth = useAuth();  
 
 const logout = () => {
+  window.location.reload();
   auth.logout();
 };
 </script>

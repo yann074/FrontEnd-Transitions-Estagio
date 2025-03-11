@@ -1,6 +1,6 @@
 <script setup>
-import Api from "../service/Api";
-import { ref, onMounted } from "vue";
+  import Api from "../service/Api";
+  import { ref, onMounted } from "vue";
 import { format } from 'date-fns'
 import NewCategory from "../components/Layouts/category/NewCategory.vue";
 import DeleteCategory from "../components/Layouts/category/DeleteCategory.vue";
@@ -56,17 +56,19 @@ onMounted(fetchData)
             
             <tr  v-for="(transaction, index) in transactions" :key="index">
                 <td>{{ transaction.created_at  }}</td>
-                <td>{{ transaction.tipe  ? "Entrada" : "Saida"}}</td>
+                <td>{{ transaction.type === 1 ? "Entrada" : "Saída" }}</td>
                 <td>{{ transaction.value }}</td>
                 <td>{{ transaction.description }}</td>
-                <td>{{ transaction.category_id }}</td>
-                <button @click="deleteData(transaction.id)" class="btn btn-danger">
-                  <i class="fas fa-trash"></i> Deletar
-                </button>
-                  
-                  <router-link :to="`/edit/${transaction.id}`">
-                    <i class="fas fa-trash"></i> Editar
+                <td>{{ transaction.category }}</td>
+                <td>
+                  <button @click="deleteData(transaction.id)" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Deletar
+                  </button>
+                  <router-link :to="`/edit/${transaction.id}`" class="btn btn-danger ms-4">
+                    <i class="fas fa-paint-brush"></i> Editar
                   </router-link>
+                </td>
+                  
                 </tr>
                 
               </tbody>
