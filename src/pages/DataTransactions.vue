@@ -2,12 +2,14 @@
 import Api from "../service/Api";
 import { ref, onMounted } from "vue";
 import { format } from 'date-fns'
+import NewCategory from "../components/Layouts/category/NewCategory.vue";
+import DeleteCategory from "../components/Layouts/category/DeleteCategory.vue";
 
 const transactions = ref([]);
 
 const fetchData = async () => {
   try {
-    const response = await Api.get("/all"); 
+    const response = await Api.get("/transactions"); 
     console.log(response.data.data); 
     transactions.value = response.data.data.map(transaction => {
       return {
@@ -37,12 +39,14 @@ onMounted(fetchData)
             <th>Descrição</th>
             <th>Categoria</th>
             <th>    
-              <button class="btn btn-primary">
+              <router-link :to="`/formregister`" class="btn btn-primary">
                 <i class="bi bi-plus"></i> Adicionar
-              </button>
+              </router-link>
 
               </th>
-          </tr>
+              
+              
+            </tr>
         </thead>
         <tbody>
             
@@ -59,10 +63,14 @@ onMounted(fetchData)
                   <router-link :to="`/transaction/${transaction.id}`">
                     <i class="fas fa-trash"></i> Excluir
                   </router-link>
-            </tr>
-        
-        </tbody>
-      </table>
+                </tr>
+                
+              </tbody>
+            </table>
+            <h3>Adicionar  Categoria</h3>
+            <NewCategory />
+            <h3>Categorias Disponíveis</h3>
+            <DeleteCategory />
     </div>
   </template>
 

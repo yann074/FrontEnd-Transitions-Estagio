@@ -5,6 +5,8 @@ import DataTransations from '../pages/DataTransactions.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import {useAuth} from "../store/auth"
 import HelloWorld from '../components/HelloWorld.vue';
+import FormRegister from '../pages/FormRegister.vue';
+import AllCategory from '../components/Layouts/category/AllCategory.vue';
 
 
 const routes = [
@@ -20,6 +22,15 @@ const routes = [
     component: Dashboard,
     meta: { requiresAuth: true } 
   },
+  {
+    path: "/formregister",
+    component: FormRegister,
+    meta: { requiresAuth: true } 
+  },
+  {
+    path:"/category",
+    component: AllCategory
+  }
 ];
 
 const router = createRouter({
