@@ -73,21 +73,23 @@ export default {
   methods: {
 
     handleSubmit() {
-  Api.post("/transactions", {
-    value: this.form.value,
-    description: this.form.description,
-    type: this.form.type,
-    category_id: this.form.category_id,
-  })
-  .then((response) => {
-    console.log("Resposta da API:", response.data);
+      Api.post("/transactions", {
+        value: this.form.value,
+        description: this.form.description,
+        type: this.form.type,
+        category_id: this.form.category_id,
+      })
+      .then((response) => {
+        console.log("Resposta da API:", response.data);
+        alert("cadastrado com sucesso")
+        window.location.href = "/dashboard";
   })
   .catch((error) => {
     console.error("Erro:", error.response ? error.response.data : error);
   });
 }
 
-  }
+}
 }
 
   </script>

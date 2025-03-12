@@ -1,5 +1,34 @@
-# Vue 3 + TypeScript + Vite
+# Sistema de RH - Frontend Vue.js
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Este é o frontend do Sistema de RH desenvolvido com **Vue.js**. Ele se comunica com a API backend para realizar operações como cadastro de usuários, autenticação e gerenciamento de dados de RH.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Requisitos
+
+- Node.js (12.x ou superior)
+- NPM ou Yarn
+
+## Como rodar o projeto
+
+### Passo 1: Clonar o repositório
+
+Clone o repositório do frontend para o seu ambiente local:
+
+```bash
+git clone https://seu-repositorio.git
+cd nome-do-repositorio
+
+### Passo 2: Instalar dependências
+
+Instalar dependências com NPM:
+
+```bash
+npm install
+
+### Passo 3: Rodar o Projeto
+
+Agora você pode rodar o frontend em modo de desenvolvimento com o comando:
+
+```bash
+npm run serve
+
+
